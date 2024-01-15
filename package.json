@@ -34,7 +34,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/atmus-tecnologia/nestjs-openai"
+    "url": "git+https://github.com/atmus-tecnologia/nestjs-openai.git"
   },
   "bugs": "https://github.com/atmus-tecnologia/nestjs-openai",
   "peerDependencies": {
