@@ -3,6 +3,7 @@ import { OPENAI_CONFIG_OPTIONS } from './constants';
 import { OpenAIModuleAsyncOptions, OpenAIModuleOptions } from './module-options.interface';
 import { OpenAIService } from './openai.service';
 
+
 @Global()
 @Module({})
 export class OpenAIModule {
