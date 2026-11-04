@@ -1,6 +1,6 @@
 import { DynamicModule, Global, Module, Provider } from '@nestjs/common';
 import { OPENAI_CONFIG_OPTIONS } from './constants';
-import { OpenAIModuleAsyncOptions, OpenAIModuleOptions } from './module-options.interface';
+import { OpenAIModuleAsyncOptions, OpenAIModuleOptions, OpenAIModuleOptionsFactory } from './module-options.interface';
 import { OpenAIService } from './openai.service';
 
 
@@ -32,12 +32,14 @@ export class OpenAIModule {
   }
 
   private static createAsyncProviders(options: OpenAIModuleAsyncOptions): Provider[] {
+    if (options.useFactory) {
+      return [{ provide: OPENAI_CONFIG_OPTIONS, useFactory: options.useFactory, inject: options.inject || [] }];
+    }
+    const factory = options.useClass || options.useExisting;
+    if (!factory) throw new Error('OpenAIModule.registerAsync requires useFactory, useClass or useExisting');
     return [
-      {
-        provide: OPENAI_CONFIG_OPTIONS,
-        useFactory: options.useFactory,
-        inject: options.inject || [],
-      },
+      ...(options.useClass ? [options.useClass] : []),
+      { provide: OPENAI_CONFIG_OPTIONS, useFactory: (instance: OpenAIModuleOptionsFactory) => instance.createOpenAIOptions(), inject: [factory] },
     ];
   }
 }

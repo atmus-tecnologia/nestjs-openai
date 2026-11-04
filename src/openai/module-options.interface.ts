@@ -9,6 +9,7 @@ export interface OpenAIModuleOptionsFactory {
 
 export interface OpenAIModuleAsyncOptions extends Pick<ModuleMetadata, 'imports'> {
   useClass?: Type<OpenAIModuleOptionsFactory>;
+  useExisting?: Type<OpenAIModuleOptionsFactory>;
   useFactory?: (...args: any[]) => Promise<OpenAIModuleOptions> | OpenAIModuleOptions;
   inject?: any[];
 }
